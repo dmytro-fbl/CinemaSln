@@ -1,17 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CinemaBookingSystem.Models.ViewModels.MovieListViewModel
 
 @{
-    @model IQueryable<Movie>
-
-   <h4>Welcome to CinemaBookingSystem</h4>
-    @foreach (var p in Model ?? Enumerable.Empty<Movie>())
-    {
-        <div>
-        <h3>@p.Title</h3>
-        @p.Description
-        <h4>@p.TicketPrice.ToString("c")</h4>
-        </div>
-    }
+	<h4>Welcome to CinemaBookingSystem</h4>  
 }
+
+@{
+	Layout = "_Layout";
+}
+
+@foreach(var m in Model.Movies)
+{
+	<div>
+		<h3>@m.Title</h3>
+		<p>Ціна: @m.TicketPrice.ToString("C")</p>
+	</div>
+}
+<div class="btn-group pull-right m-1">
+	@for(int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+	{
+		<a asp-action="Index" asp-route-productPage="@i"
+		class="btn-outline-primary @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
+			@i
+		</a>
+	}
+
+</div>
