@@ -1,10 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CinemaBookingSystem.Models.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CinemaBookingSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index() => View();
+        private ICinemaRepository cinemaRepository;
+        //public IActionResult Index() => View();
+
+        public HomeController(ICinemaRepository cinemaRepo)
+        {
+            cinemaRepository = cinemaRepo;            
+        }
+        public IActionResult Index() => View(cinemaRepository.Movies);
     }
 }
