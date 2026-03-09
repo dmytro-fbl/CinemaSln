@@ -3,5 +3,15 @@
 *@
 
 @{
-   
+    @model IQueryable<Movie>
+
+   <h4>Welcome to CinemaBookingSystem</h4>
+    @foreach (var p in Model ?? Enumerable.Empty<Movie>())
+    {
+        <div>
+        <h3>@p.Title</h3>
+        @p.Description
+        <h4>@p.TicketPrice.ToString("c")</h4>
+        </div>
+    }
 }
