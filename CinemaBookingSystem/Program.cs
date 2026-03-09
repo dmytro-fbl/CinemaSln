@@ -26,9 +26,7 @@ namespace CinemaBookingSystem
 
             app.MapDefaultControllerRoute();    
             
-            SeedData.EnsurePopulated(app);
-
-            app.MapDefaultControllerRoute();
+            SeedData.EnsurePopulated(app); 
 
             app.Run();
         }

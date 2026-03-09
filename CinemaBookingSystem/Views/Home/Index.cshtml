@@ -1,27 +1,46 @@
 ﻿@model CinemaBookingSystem.Models.ViewModels.MovieListViewModel
 
-@{
-	<h4>Welcome to CinemaBookingSystem</h4>  
-}
+<div class="container">
+	<h2 class="display-6 mb-4">Зараз у прокаті</h2>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var m in Model.Movies)
+		{
+			<div class="col">
+				<div class="card h-100 shadow-sm border-0 bg-light">
+					<div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+						<span class="h1">Фото</span>
+					</div>
 
-@{
-	Layout = "_Layout";
-}
+					<div class="card-body">
+						<div class="d-flex justify-content-between mb-2">
+							<span class="badge bg-primary">@m.Genre</span>
+							<small class="text-muted">@m.ReleaseDate.ToString("dd.MM.yyyy")</small>
 
-@foreach(var m in Model.Movies)
-{
-	<div>
-		<h3>@m.Title</h3>
-		<p>Ціна: @m.TicketPrice.ToString("C")</p>
+						</div>
+
+						<h5 class="card-title fw-bold">@m.Title</h5>
+						<p class="card-text text-muted">@m.Description</p>
+					</div>
+
+					<div class="card-footer bg-white border-0 pb-3">
+						<div class="d-flex justify-content-between align-items-center">
+							<span class="h5 mb-0 text-success fw-bold">@m.TicketPrice.ToString("0.00") грн</span>
+							<a href="#" class="btn btn-primary btn-sm px-4 shadow-sm">Квитки</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
 	</div>
-}
-<div class="btn-group pull-right m-1">
-	@for(int i = 1; i <= Model.PagingInfo.TotalPages; i++)
-	{
-		<a asp-action="Index" asp-route-productPage="@i"
-		class="btn-outline-primary @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
-			@i
-		</a>
-	}
 
+	<nav aria-label="Навігація" class="mt-5">
+		<ul>
+			@for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+			{
+				<li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
+					<a class="page-link shadow-sm" asp-action="Index" asp-route-productPage="@i">@i</a>
+				</li>
+			}
+		</ul>
+	</nav>
 </div>
