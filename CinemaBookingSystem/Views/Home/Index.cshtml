@@ -5,31 +5,7 @@
 	<div class="row row-cols-1 row-cols-md-3 g-4">
 		@foreach (var m in Model.Movies)
 		{
-			<div class="col">
-				<div class="card h-100 shadow-sm border-0 bg-light">
-					<div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-						<span class="h1">Фото</span>
-					</div>
-
-					<div class="card-body">
-						<div class="d-flex justify-content-between mb-2">
-							<span class="badge bg-primary">@m.Genre</span>
-							<small class="text-muted">@m.ReleaseDate.ToString("dd.MM.yyyy")</small>
-
-						</div>
-
-						<h5 class="card-title fw-bold">@m.Title</h5>
-						<p class="card-text text-muted">@m.Description</p>
-					</div>
-
-					<div class="card-footer bg-white border-0 pb-3">
-						<div class="d-flex justify-content-between align-items-center">
-							<span class="h5 mb-0 text-success fw-bold">@m.TicketPrice.ToString("0.00") грн</span>
-							<a href="#" class="btn btn-primary btn-sm px-4 shadow-sm">Квитки</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<partial name="MovieSummary" model="m" />
 		}
 	</div>
 
