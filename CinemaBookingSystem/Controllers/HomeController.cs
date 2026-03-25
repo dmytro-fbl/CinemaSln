@@ -16,11 +16,12 @@ namespace CinemaBookingSystem.Controllers
         }
         //public IActionResult Index() => View(cinemaRepository.Movies);
 
-        public ViewResult Index(int productPage = 1)
+        public ViewResult Index(string? category, int productPage = 1)
         {
-            var viewModel = new MovieListViewModel
+            return View( new MovieListViewModel
             {
                 Movies = cinemaRepository.Movies
+                .Where(p => string.IsNullOrEmpty(category) || p.Genre == category)
                 .OrderBy(m => m.MovieID)
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize),
@@ -29,10 +30,11 @@ namespace CinemaBookingSystem.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = cinemaRepository.Movies.Count()
-                }
-            };
-            return View(viewModel); 
+                    TotalItems = string.IsNullOrEmpty(category) ? cinemaRepository.Movies.Count() :
+                    cinemaRepository.Movies.Where(e => e.Genre == category).Count()
+                },
+                CurrentCategory = category
+            });
         }
     }
 }

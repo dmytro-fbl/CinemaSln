@@ -24,9 +24,16 @@
 		
 	</header>
 	<main>
-		<div>
-			@RenderBody()
+		<div class="container d-flex">
+			<div id="categories" class="col-3">
+				<vc:navigation-menu />
+			</div>
+			<div col-9>
+				@RenderBody()
+			</div>
 		</div>
+
+		
 	</main>
 	<footer class="bg-light text-center text-muted py-4 mt-auto border-top">
 		<div class="container">

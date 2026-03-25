@@ -10,11 +10,11 @@
 	</div>
 
 	<nav aria-label="Навігація" class="mt-5">
-		<ul>
+		<ul class="pagination">
 			@for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
 			{
-				<li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
-					<a class="page-link shadow-sm" asp-action="Index" asp-route-productPage="@i">@i</a>
+				<li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "") list-unstyled">
+					<a class="page-link shadow-sm btn btn-outline-secondary asp-action="Index" asp-route-productPage="@i">@i</a>
 				</li>
 			}
 		</ul>
