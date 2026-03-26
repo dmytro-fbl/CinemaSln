@@ -20,15 +20,23 @@ namespace CinemaBookingSystem
 
             builder.Services.AddScoped<ICinemaRepository, EFCinemaRepository>();
 
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+            builder.Services.AddRazorPages();
+
             var app = builder.Build();
 
             app.UseStaticFiles();
 
-            app.MapDefaultControllerRoute();    
-            
-            SeedData.EnsurePopulated(app);
+            app.UseRouting();
+
+            app.UseSession();
 
             app.MapDefaultControllerRoute();
+            
+            SeedData.EnsurePopulated(app); 
+
+            app.MapRazorPages();
 
             app.Run();
         }

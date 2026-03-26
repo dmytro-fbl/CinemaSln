@@ -1,7 +1,22 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CinemaBookingSystem.Models.ViewModels.MovieListViewModel
 
-@{
-   
-}
+<div class="container">
+	<h2 class="display-6 mb-4">Зараз у прокаті</h2>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var m in Model.Movies)
+		{
+			<partial name="MovieSummary" model="m" />
+		}
+	</div>
+
+	<nav aria-label="Навігація" class="mt-5">
+		<ul class="pagination">
+			@for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+			{
+				<li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "") list-unstyled">
+					<a class="page-link shadow-sm btn btn-outline-secondary asp-action="Index" asp-route-productPage="@i">@i</a>
+				</li>
+			}
+		</ul>
+	</nav>
+</div>

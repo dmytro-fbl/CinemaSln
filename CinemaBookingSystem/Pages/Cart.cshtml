@@ -1,0 +1,40 @@
+﻿@page
+@model CinemaBookingSystem.Pages.CartModel
+
+<h2>Ваші вибрані квитки</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Кількість</th>
+            <th>Фільм</th>
+            <th class="text-end">Ціна</th>
+            <th class="text-end">Сума</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Cart?.Lines != null)
+        {
+            foreach (var line in Model.Cart.Lines)
+            {
+                <tr>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-start">@line.Movie.Title</td>
+                    <td class="text-end">@line.Movie.TicketPrice</td>
+                    <td class="text-end">@(line.Quantity * line.Movie.TicketPrice) грн</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-end fw-bold">Загальна сума:</td>
+            <td class="text-end fw-bold">@Model.Cart?.ComputeTotalValue() грн</td>
+        </tr> 
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">продовжити вибір фільмів</a>
+</div>
