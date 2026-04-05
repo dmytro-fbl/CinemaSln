@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Movie>
+
+<div class="container mt-4">
+	<h2>Панель Адміністратора: Фільми</h2>
+	<table>
+    <thead>
+		<tr>
+			<th>Назва</th>
+			<th>Жанр</th>
+			<th>Ціна</th>
+			<th>Дії</th>
+		</tr>
+	</thead>
+	<tbody>
+			@foreach (var m in Model)
+			{
+				<tr>
+					<td>@m.Title</td>
+					<td>@m.Genre</td>
+					<td>@m.TicketPrice.ToString("F2") грн</td>
+					<td>
+						<a asp-action="Details" asp-route-movieId="@m.MovieID" class="btn btn-info btn-sm">Деталі</a>
+						<a asp-action="Edit" asp-route-movieId="@m.MovieID" class="btn btn-warning btn-sm">Редагувати</a>
+						<form asp-action="Delete" method="post" style="display:inline;">
+							<input type="hidden" name="movieId" value="@m.MovieID" />
+							<button type="submit" class="btn btn-danger btn-sm"
+									onclick="return confirm('Ви впевнені, що хочете видалити фільм @m.Title?')">
+								Видалити
+							</button>
+						</form>
+
+					</td>
+					
+				</tr>
+			}
+		</tbody>
+</table>
+<a asp-action="Create" class="btn btn-success">Додати новий фільм</a>
+</div>
