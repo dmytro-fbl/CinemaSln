@@ -12,5 +12,6 @@ namespace CinemaBookingSystem.Models
         [Column (TypeName ="decimal(8, 2)")]
         public decimal TicketPrice { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public List<Showtime> Showtimes { get; set; } = new List<Showtime> ();
     }
 }
