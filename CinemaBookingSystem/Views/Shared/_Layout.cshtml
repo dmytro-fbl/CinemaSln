@@ -14,10 +14,16 @@
 				<a class="navbar-brand fw-bold" asp-action="Index">
 					<span class="text-primary"></span> CinemaBooking
 				</a>
-				<div class="navbar-nav">
-					<a class="nav-link" active" asp-action="Index">Головна</a>
+				<div class="navbar-nav me-auto">
+					<a class="nav-link active" asp-controller="Home" asp-action="Index">Головна</a>
 					<a class="nav-link" href="#">Фільми</a>
 					<a class="nav-link" href="#">Про нас</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="btn btn-outline-danger btn-sm" asp-controller="Admin" asp-action="Index">Адмін панель</a>
+				</div>
+				<div class="navbar-nav p-2">
+					<a class="btn btn-primary" asp-page="/Cart">Кошик</a>
 				</div>
 			</div>
 		</nav>
