@@ -82,10 +82,12 @@ namespace CinemaBookingSystem.Controllers
         }
 
         [Authorize]
-        public async Task<RedirectResult> logout(string returnUrl = "/")
+        public async Task<RedirectResult> Logout(string returnUrl = "/")
         {
             await signInManager.SignOutAsync();
             return Redirect(returnUrl);
         }
+
+        
     }
 }

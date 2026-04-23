@@ -19,12 +19,28 @@
 					<a class="nav-link" href="#">Фільми</a>
 					<a class="nav-link" href="#">Про нас</a>
 				</div>
-				<div class="navbar-nav">
-					<a class="btn btn-outline-danger btn-sm" asp-controller="Admin" asp-action="Index">Адмін панель</a>
+				<div class="navbar-nav align-items-center">
+					@if(User.Identity?.IsAuthenticated == true)
+					{
+						<span class="text-light me-3">Привіт @User.Identity.Name</span>
+						<a class="btn btn-outline-danger btn-sm me-2" asp-controller="Admin" asp-action="Index">
+							Адмін панель
+						</a>
+						<div class="navbar-nav p-2">
+							<a class="btn btn-primary" asp-page="/Cart">Кошик</a>
+						</div>
+						<div class="navbar-nav align-items-end">
+							<a class="btn btn-outline-danger btn-sm" asp-controller="Account" asp-action="Logout">Вийти</a>
+						</div>
+					}
+					else
+					{
+						<a class="btn btn-outline-light btn-sm me-2" asp-controller="Account" asp-action="Login">Увійти</a>
+						<a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Register">Реєстрація</a>
+					}
 				</div>
-				<div class="navbar-nav p-2">
-					<a class="btn btn-primary" asp-page="/Cart">Кошик</a>
-				</div>
+				
+				
 			</div>
 		</nav>
 		
