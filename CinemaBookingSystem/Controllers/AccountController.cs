@@ -88,6 +88,62 @@ namespace CinemaBookingSystem.Controllers
             return Redirect(returnUrl);
         }
 
-        
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(RegisterModel model)
+        {
+            IdentityUser? user = await userManager.FindByNameAsync(User.Identity?.Name ?? "");
+
+            if (user != null)
+            {
+                user.UserName = model.Name;
+                user.Email = model.Email;
+
+                IdentityResult result = await userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    await signInManager.RefreshSignInAsync(user);
+
+                    TempData["Message"] = "Дані успішно оновлено!";
+                    return RedirectToAction("Profile");
+                }
+                else
+                {
+                    foreach(IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult>  Profile()
+        {
+            string? userName = User.Identity?.Name;
+
+            if (userName == null) return RedirectToAction("Login");
+
+            IdentityUser? user = await userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new RegisterModel
+            {
+                Name = user.UserName ?? "",
+                Email = user.Email ?? ""
+            };
+
+            return View(model);
+        }
+       
     }
 }

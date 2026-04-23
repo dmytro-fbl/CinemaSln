@@ -22,7 +22,7 @@
 				<div class="navbar-nav align-items-center">
 					@if(User.Identity?.IsAuthenticated == true)
 					{
-						<span class="text-light me-3">Привіт @User.Identity.Name</span>
+						<span class="text-light me-3">Привіт, <a asp-action="Profile" asp-controller="Account" class="text-info text-decoration-none">@User.Identity.Name</a>!</span>
 						<a class="btn btn-outline-danger btn-sm me-2" asp-controller="Admin" asp-action="Index">
 							Адмін панель
 						</a>
