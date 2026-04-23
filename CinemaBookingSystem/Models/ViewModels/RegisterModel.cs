@@ -16,7 +16,7 @@ namespace CinemaBookingSystem.Models.ViewModels
 
         [Required(ErrorMessage = "Будь ласка, підтвердіть пароль")]
         [DataType(DataType.Password)]
-        [Compare("Pasword", ErrorMessage = "Паролі не співпадають")]
+        [Compare("Password", ErrorMessage = "Паролі не співпадають")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }
