@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBookingSystem", "Cine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBookingSystem.DataAccess", "CinemaBookingSystem.DataAccess\CinemaBookingSystem.DataAccess.csproj", "{F8799757-1C89-4FC2-89D2-A5CA0DF2B080}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBookingSystem.API", "CinemaBookingSystem.API\CinemaBookingSystem.API.csproj", "{9363B9EC-08FF-4DE2-8FCF-B2B221E26905}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F8799757-1C89-4FC2-89D2-A5CA0DF2B080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8799757-1C89-4FC2-89D2-A5CA0DF2B080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8799757-1C89-4FC2-89D2-A5CA0DF2B080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9363B9EC-08FF-4DE2-8FCF-B2B221E26905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9363B9EC-08FF-4DE2-8FCF-B2B221E26905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9363B9EC-08FF-4DE2-8FCF-B2B221E26905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9363B9EC-08FF-4DE2-8FCF-B2B221E26905}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
