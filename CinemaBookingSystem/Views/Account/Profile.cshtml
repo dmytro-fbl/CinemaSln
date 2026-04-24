@@ -1,0 +1,44 @@
+﻿@model CinemaBookingSystem.Models.ViewModels.RegisterModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">Особисті дані</h3>
+                </div>
+                <div class="card-body">
+
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Message"]</div>
+                    }
+
+                    <form asp-action="Profile" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Ім'я користувача:</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email:</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="Password" value="Placeholder123!" />
+                        <input type="hidden" asp-for="ConfirmPassword" value="Placeholder123!" />
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+                            <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">Скасувати</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,6 @@
-﻿namespace CinemaBookingSystem.Models.ViewModels
+﻿using CinemaBookingSystem.Models;
+
+namespace CinemaBookingSystem.Models.ViewModels
 {
     public class MovieListViewModel
     {
