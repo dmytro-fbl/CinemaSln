@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CinemaBookingSystem.Models
+namespace CinemaBookingSystem.DataAccess.Models
 {
     public class AppIdentityDbContext : IdentityDbContext<IdentityUser>
     {

@@ -1,6 +1,7 @@
+using CinemaBookingSystem.DataAccess.Models;
+using CinemaBookingSystem.DataAccess.Models.Interface;
+using CinemaBookingSystem.DataAccess.Models.Repositories;
 using CinemaBookingSystem.Models;
-using CinemaBookingSystem.Models.Interface;
-using CinemaBookingSystem.Models.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

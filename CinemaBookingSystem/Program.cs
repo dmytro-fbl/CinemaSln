@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using CinemaBookingSystem.Models;
-using CinemaBookingSystem.Models.Interface;
-using CinemaBookingSystem.Models.Repositories;
+using CinemaBookingSystem.DataAccess.Models.Interface;
+using CinemaBookingSystem.DataAccess.Models.Repositories;
 using System.Numerics;
 using Microsoft.AspNetCore.Identity;
+using CinemaBookingSystem.DataAccess.Models;
 
 namespace CinemaBookingSystem
 {

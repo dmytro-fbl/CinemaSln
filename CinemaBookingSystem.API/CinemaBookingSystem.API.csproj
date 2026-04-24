@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinemaBookingSystem.DataAccess\CinemaBookingSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\CinemaBookingSystem\CinemaBookingSystem.csproj" />
   </ItemGroup>
 
 </Project>

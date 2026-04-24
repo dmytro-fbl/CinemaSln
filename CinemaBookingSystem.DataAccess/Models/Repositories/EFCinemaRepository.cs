@@ -1,7 +1,7 @@
-﻿using CinemaBookingSystem.Models.Interface;
+﻿using CinemaBookingSystem.DataAccess.Models.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace CinemaBookingSystem.Models.Repositories
+namespace CinemaBookingSystem.DataAccess.Models.Repositories
 {
     public class EFCinemaRepository : ICinemaRepository
     { 

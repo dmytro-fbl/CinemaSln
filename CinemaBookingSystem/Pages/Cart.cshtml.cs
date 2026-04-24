@@ -1,6 +1,7 @@
+using CinemaBookingSystem.DataAccess.Models;
+using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Infrastructure;
 using CinemaBookingSystem.Models;
-using CinemaBookingSystem.Models.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
