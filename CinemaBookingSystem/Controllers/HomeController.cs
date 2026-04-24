@@ -1,4 +1,4 @@
-﻿using CinemaBookingSystem.Models.Interface;
+﻿using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

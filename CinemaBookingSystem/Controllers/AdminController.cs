@@ -1,12 +1,13 @@
 ﻿using CinemaBookingSystem.Models;
-using CinemaBookingSystem.Models.Interface;
+using CinemaBookingSystem.DataAccess.Models.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CinemaBookingSystem.DataAccess.Models;
 
 namespace CinemaBookingSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ICinemaRepository cinemaRepository;

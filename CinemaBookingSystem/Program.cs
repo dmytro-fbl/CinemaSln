@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using CinemaBookingSystem.Models;
-using CinemaBookingSystem.Models.Interface;
-using CinemaBookingSystem.Models.Repositories;
+using CinemaBookingSystem.DataAccess.Models.Interface;
+using CinemaBookingSystem.DataAccess.Models.Repositories;
 using System.Numerics;
 using Microsoft.AspNetCore.Identity;
+using CinemaBookingSystem.DataAccess.Models;
 
 namespace CinemaBookingSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,28 @@ namespace CinemaBookingSystem
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                if (!await roleManager.RoleExistsAsync("Admin"))
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+                if (!await roleManager.RoleExistsAsync("User"))
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+
+                if (await userManager.FindByNameAsync("MainAdmin") == null)
+                {
+                    var adminUser = new IdentityUser { UserName = "MainAdmin", Email = "admin@cinema.com" };
+                    var result = await userManager.CreateAsync(adminUser, "Admin123");
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(adminUser, "Admin"); 
+                    }
+                }
+            }
 
             app.UseStaticFiles();
 

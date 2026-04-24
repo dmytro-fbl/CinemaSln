@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
 
-namespace CinemaBookingSystem.Models
+namespace CinemaBookingSystem.DataAccess.Models
 {
     public static class SeedData
     {

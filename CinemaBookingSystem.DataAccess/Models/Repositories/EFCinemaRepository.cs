@@ -1,6 +1,7 @@
-﻿using CinemaBookingSystem.Models.Interface;
+﻿using CinemaBookingSystem.DataAccess.Models.Interface;
+using Microsoft.EntityFrameworkCore;
 
-namespace CinemaBookingSystem.Models.Repositories
+namespace CinemaBookingSystem.DataAccess.Models.Repositories
 {
     public class EFCinemaRepository : ICinemaRepository
     { 
@@ -9,7 +10,7 @@ namespace CinemaBookingSystem.Models.Repositories
         {
             context = ctx;
         }
-        public IQueryable<Movie> Movies => context.Movies;
+        public IQueryable<Movie> Movies => context.Movies.AsNoTracking();
 
         public IQueryable<Showtime> Showtimes => context.Showtimes;
 

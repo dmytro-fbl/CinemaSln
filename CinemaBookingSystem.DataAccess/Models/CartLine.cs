@@ -1,4 +1,4 @@
-﻿namespace CinemaBookingSystem.Models
+﻿namespace CinemaBookingSystem.DataAccess.Models
 {
     public class CartLine
     {
