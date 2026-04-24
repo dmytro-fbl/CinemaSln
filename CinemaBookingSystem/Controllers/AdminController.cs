@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBookingSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ICinemaRepository cinemaRepository;
