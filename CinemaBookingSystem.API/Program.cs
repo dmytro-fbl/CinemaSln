@@ -1,9 +1,12 @@
+using System.Text;
 using CinemaBookingSystem.DataAccess.Models;
 using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.DataAccess.Models.Repositories;
 using CinemaBookingSystem.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CinemaBookingSystem.API
 {
@@ -30,6 +33,23 @@ namespace CinemaBookingSystem.API
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
 
             builder.Services.AddScoped<ICinemaRepository, EFCinemaRepository>();
+
+            builder.Services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
 
             var app = builder.Build();
 
