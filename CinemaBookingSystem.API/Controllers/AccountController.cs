@@ -1,7 +1,11 @@
-﻿using CinemaBookingSystem.Models.ViewModels;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using CinemaBookingSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace CinemaBookingSystem.API.Controllers
@@ -11,10 +15,11 @@ namespace CinemaBookingSystem.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-
-        public AccountController(UserManager<IdentityUser> userManager)
+        private readonly IConfiguration _configuration;
+        public AccountController(UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -51,6 +56,39 @@ namespace CinemaBookingSystem.API.Controllers
                 Name = user.UserName,
                 Email = user.Email
             });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Name);
+
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    expires: DateTime.Now.AddHours(3),
+                    claims: authClaims,
+                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                });
+            }
+
+            return Unauthorized("Невірний логін або пароль");
         }
     }
 }
