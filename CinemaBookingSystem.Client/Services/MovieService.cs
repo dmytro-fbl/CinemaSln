@@ -1,6 +1,6 @@
 ﻿
 using System.Net.Http.Json;
-using CinemaBookingSystem.DataAccess.Models;
+using CinemaBookingSystem.Models.Models;
 
 namespace CinemaBookingSystem.Client.Services
 {
@@ -20,9 +20,9 @@ namespace CinemaBookingSystem.Client.Services
             await _httpClient.PostAsJsonAsync("api/movies", movie);
 
         public async Task UpdateMovieAsync(long id, Movie movie) =>
-            await _httpClient.PutAsJsonAsync($"api/movie/{id}", movie);
+            await _httpClient.PutAsJsonAsync($"api/movies/{id}", movie);
 
         public async Task DeleteMovieAsync(long id) =>
-            await _httpClient.DeleteAsync($"api/movie/{id}");
+            await _httpClient.DeleteAsync($"api/movies/{id}");
     }
 }

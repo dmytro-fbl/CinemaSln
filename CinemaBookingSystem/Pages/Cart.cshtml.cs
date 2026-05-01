@@ -1,4 +1,4 @@
-using CinemaBookingSystem.DataAccess.Models;
+using CinemaBookingSystem.Models.Models;
 using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Infrastructure;
 using CinemaBookingSystem.Models;

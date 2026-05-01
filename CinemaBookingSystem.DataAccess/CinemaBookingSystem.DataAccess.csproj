@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaBookingSystem.Models\CinemaBookingSystem.Models.csproj" />
+  </ItemGroup>
+
 </Project>

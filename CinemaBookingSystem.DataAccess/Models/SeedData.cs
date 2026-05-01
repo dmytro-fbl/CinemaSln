@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using CinemaBookingSystem.Models.Models;
 
 namespace CinemaBookingSystem.DataAccess.Models
 {

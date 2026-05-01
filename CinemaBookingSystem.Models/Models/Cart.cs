@@ -1,4 +1,4 @@
-﻿namespace CinemaBookingSystem.DataAccess.Models
+﻿namespace CinemaBookingSystem.Models.Models
 {
     public class Cart
     {

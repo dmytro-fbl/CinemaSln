@@ -1,6 +1,6 @@
-﻿using CinemaBookingSystem.DataAccess.Models;
-using CinemaBookingSystem.DataAccess.Models.Interface;
+﻿using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Models;
+using CinemaBookingSystem.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

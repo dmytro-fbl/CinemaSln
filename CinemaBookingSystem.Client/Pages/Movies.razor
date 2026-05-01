@@ -1,0 +1,258 @@
+﻿@* @page "/movies"
+@using CinemaBookingSystem.Models.Models
+@using CinemaBookingSystem.Client.Services
+@inject IMovieService MovieService 
+
+<h3>Управління фільмами</h3>
+
+<div class="card p-3 mb-4">
+	<h5>@(isEditing ? "Редагувати фільм" : "Додати новий фільм")</h5>
+	<EditForm Model="currentMovie" OnValidSubmit="SaveMovie">
+		<DataAnnotationsValidator />
+
+		<div class="mb-2">
+			<label>Назва: </label>
+			<InputText @bind-Value="currentMovie.Title" class="form-control"/>
+			<ValidationMessage For="@(() => currentMovie.Title)" class="text-danger" />
+		</div>
+
+		<div class="mb-2">
+            <label>Опис:</label>
+            <InputTextArea @bind-Value="currentMovie.Description" class="form-control" />
+            <ValidationMessage For="@(() => currentMovie.Description)" class="text-danger" />
+        </div>
+		<button type="submit" class="btn btn-success mt-2">Зберегти</button>
+		@if(isEditing)
+		{
+			<button type="button" class="btn btn-secondary mt-2 ms-2" @onclick="CancelEdit">Скасувати</button>
+		}
+	</EditForm>
+</div>
+
+@if(movies == null)
+{
+	<p>Завантаження</p>
+}else{
+	<table class=" table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Назва</th>
+				<th>Опис</th>
+				<th>Дії</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var movie in movies){
+				<tr>
+					<td>@movie.MovieID</td>
+					<td>@movie.Title</td>
+					<td>@movie.Description</td>
+					<td>
+                        <button class="btn btn-sm btn-primary" @onclick="() => EditMovie(movie)">Редагувати</button>
+						<button class=" btn btn-sm btn-danger" @onclick=" () => DeleteMovie(movie.MovieID)">Видалити</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code{
+    private List<Movie> movies;
+    private Movie currentMovie = new Movie();
+    private bool isEditing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMovies();
+    }
+
+    private async Task LoadMovies()
+    {
+        movies = await MovieService.GetMoviesAsync();
+    }
+
+    private async Task SaveMovie()
+    {
+        if (isEditing)
+        {
+            await MovieService.UpdateMovieAsync(currentMovie.MovieID, currentMovie);
+        }
+        else
+        {
+            await MovieService.CreateMovieAsync(currentMovie);
+        }
+
+        currentMovie = new Movie(); 
+        isEditing = false;
+        await LoadMovies(); 
+    }
+
+    private void EditMovie(Movie movie)
+    {
+        currentMovie = new Movie
+        {
+            MovieID = movie.MovieID,
+            Title = movie.Title,
+            Description = movie.Description
+        };
+        isEditing = true;
+    }
+
+    private void CancelEdit()
+    {
+        currentMovie = new Movie();
+        isEditing = false;
+    }
+
+    private async Task DeleteMovie(long id)
+    {
+        await MovieService.DeleteMovieAsync(id);
+        await LoadMovies();
+    }
+} *@
+
+    @page "/movies"
+@using CinemaBookingSystem.Models.Models
+@using CinemaBookingSystem.Client.Services
+@inject IMovieService MovieService 
+
+<h3>Управління фільмами</h3>
+
+<div class="card p-3 mb-4">
+    <h5>@(isEditing ? "Редагувати фільм" : "Додати новий фільм")</h5>
+    
+    <EditForm Model="currentMovie" OnValidSubmit="SaveMovie">
+        <DataAnnotationsValidator />
+
+        <div class="mb-2">
+            <label>Назва: </label>
+            <InputText @bind-Value="currentMovie.Title" class="form-control"/>
+            <ValidationMessage For="@(() => currentMovie.Title)" class="text-danger" />
+        </div>
+
+        <div class="mb-2">
+            <label>Опис:</label>
+            <InputTextArea @bind-Value="currentMovie.Description" class="form-control" />
+            <ValidationMessage For="@(() => currentMovie.Description)" class="text-danger" />
+        </div>
+
+        <div class="mb-2">
+            <label>Жанр:</label>
+            <InputText @bind-Value="currentMovie.Genre" class="form-control" />
+            <ValidationMessage For="@(() => currentMovie.Genre)" class="text-danger" />
+        </div>
+
+        <div class="mb-2">
+            <label>Ціна:</label>
+            <InputNumber @bind-Value="currentMovie.TicketPrice" class="form-control" />
+            <ValidationMessage For="@(() => currentMovie.TicketPrice)" class="text-danger" />
+        </div>
+
+        <div class="mb-2">
+            <label>Дата показу:</label>
+            <InputDate @bind-Value="currentMovie.ReleaseDate" class="form-control" />
+            <ValidationMessage For="@(() => currentMovie.ReleaseDate)" class="text-danger" />
+        </div>
+        
+        <button type="submit" class="btn btn-success mt-2">Зберегти</button>
+        @if(isEditing)
+        {
+            <button type="button" class="btn btn-secondary mt-2 ms-2" @onclick="CancelEdit">Скасувати</button>
+        }
+    </EditForm>
+</div>
+
+@if(movies == null)
+{
+    <p>Завантаження</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Назва</th>
+                <th>Опис</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies)
+            {
+                <tr>
+                    <td>@movie.MovieID</td>
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.TicketPrice</td>
+                    <td>@movie.ReleaseDate</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" @onclick="() => EditMovie(movie)">Редагувати</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteMovie(movie.MovieID)">Видалити</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Movie> movies;
+    private Movie currentMovie = new Movie();
+    private bool isEditing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMovies();
+    }
+
+    private async Task LoadMovies()
+    {
+        movies = await MovieService.GetMoviesAsync();
+    }
+
+    private async Task SaveMovie()
+    {
+        if (isEditing)
+        {
+            await MovieService.UpdateMovieAsync(currentMovie.MovieID, currentMovie);
+        }
+        else
+        {
+            await MovieService.CreateMovieAsync(currentMovie);
+        }
+
+        currentMovie = new Movie(); 
+        isEditing = false;
+        await LoadMovies(); 
+    }
+
+    private void EditMovie(Movie movie)
+    {
+        currentMovie = new Movie
+        {
+            MovieID = movie.MovieID,
+            Title = movie.Title,
+            Description = movie.Description,
+            Genre = movie.Genre,
+            TicketPrice = movie.TicketPrice,
+            ReleaseDate = movie.ReleaseDate
+        };
+        isEditing = true;
+    }
+
+    private void CancelEdit()
+    {
+        currentMovie = new Movie();
+        isEditing = false;
+    }
+
+    private async Task DeleteMovie(long id)
+    {
+        await MovieService.DeleteMovieAsync(id);
+        await LoadMovies();
+    }
+}

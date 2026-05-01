@@ -1,4 +1,6 @@
-﻿namespace CinemaBookingSystem.DataAccess.Models.Interface
+﻿using CinemaBookingSystem.Models.Models;
+
+namespace CinemaBookingSystem.DataAccess.Models.Interface
 {
     public interface ICinemaRepository
     {
