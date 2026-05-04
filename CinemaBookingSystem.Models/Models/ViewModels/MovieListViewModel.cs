@@ -1,5 +1,4 @@
-﻿using CinemaBookingSystem.DataAccess.Models;
-using CinemaBookingSystem.Models;
+﻿using CinemaBookingSystem.Models.Models;
 
 namespace CinemaBookingSystem.Models.ViewModels
 {

@@ -3,7 +3,7 @@ using CinemaBookingSystem.DataAccess.Models.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CinemaBookingSystem.DataAccess.Models;
+using CinemaBookingSystem.Models.Models;
 
 namespace CinemaBookingSystem.Controllers
 {

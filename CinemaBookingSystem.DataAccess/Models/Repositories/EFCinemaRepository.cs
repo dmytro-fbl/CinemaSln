@@ -1,4 +1,5 @@
 ﻿using CinemaBookingSystem.DataAccess.Models.Interface;
+using CinemaBookingSystem.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBookingSystem.DataAccess.Models.Repositories

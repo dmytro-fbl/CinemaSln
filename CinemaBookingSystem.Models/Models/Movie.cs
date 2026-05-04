@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CinemaBookingSystem.DataAccess.Models
+namespace CinemaBookingSystem.Models.Models
 {
     public class Movie
     {
-        public long? MovieID { get; set; }
+        public long MovieID { get; set; }
 
         [Required(ErrorMessage ="Будь ласка, введіть назву фільму")]
         public string Title { get; set; } = string.Empty;

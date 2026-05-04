@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CinemaBookingSystem.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBookingSystem.DataAccess.Models
 {

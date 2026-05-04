@@ -51,7 +51,23 @@ namespace CinemaBookingSystem.API
                     };
                 });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("BlazorPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:5275")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
 
             // Configure the HTTP request pipeline.
 

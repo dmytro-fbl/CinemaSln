@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Routing.Constraints;
 
-namespace CinemaBookingSystem.DataAccess.Models
+namespace CinemaBookingSystem.Models.Models
 {
     public class Showtime
     {
