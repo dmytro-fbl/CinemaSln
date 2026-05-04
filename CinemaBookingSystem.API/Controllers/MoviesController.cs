@@ -1,11 +1,13 @@
 ﻿using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Models;
 using CinemaBookingSystem.Models.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaBookingSystem.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
@@ -17,6 +19,7 @@ namespace CinemaBookingSystem.API.Controllers
             _cinemaRepo = cinemaRepo;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<Movie> GetMovies()
         {
@@ -30,7 +33,7 @@ namespace CinemaBookingSystem.API.Controllers
             if (movie == null) return NotFound();
             return movie;
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult CreateMovie([FromBody]Movie movie)
         {
@@ -39,7 +42,7 @@ namespace CinemaBookingSystem.API.Controllers
             _cinemaRepo.SaveMovie(movie);
             return Ok(movie);
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Updatemovie(long id, [FromBody]Movie movie)
         {
@@ -54,7 +57,7 @@ namespace CinemaBookingSystem.API.Controllers
 
             return Ok(movie);
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(long id)
         {

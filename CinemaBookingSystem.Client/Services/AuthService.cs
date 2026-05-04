@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace CinemaBookingSystem.Client.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
         private readonly AuthenticationStateProvider _authStateProvider;
@@ -22,13 +22,13 @@ namespace CinemaBookingSystem.Client.Services
 
         public async Task<bool> Login(LoginModel loginModel)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/auth/login", loginModel);
+            var response = await _httpClient.PostAsJsonAsync("api/account/login", loginModel);
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
 
-                if(result != null && !string.IsNullOrEmpty(result.Token))
+                if (result != null && !string.IsNullOrEmpty(result.Token))
                 {
                     await _localStorage.SetItemAsync("authToken", result.Token);
 
@@ -39,11 +39,18 @@ namespace CinemaBookingSystem.Client.Services
             return false;
         }
 
+        public async Task<bool> Register(RegisterModel registerModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/account/register", registerModel);
+
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task Logout()
         {
             ((CustomAuthStateProvider)_authStateProvider).MarkUserAsLoggedOut();
         }
-        
+
     }
 }
 

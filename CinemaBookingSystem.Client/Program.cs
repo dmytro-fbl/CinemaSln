@@ -18,14 +18,23 @@ namespace CinemaBookingSystem.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7262") });
+            builder.Services.AddTransient<CustomAuthorizationHandler>();
+
+            builder.Services.AddScoped(sp =>
+            {
+
+                var handler = sp.GetRequiredService<CustomAuthorizationHandler>();
+                handler.InnerHandler = new HttpClientHandler();
+                return new HttpClient(handler)
+                {
+                    BaseAddress = new Uri("https://localhost:7262/")
+                };
+            }); 
 
             builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
-            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
-
-            builder.Services.AddScoped<AuthResponse>();
-            
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();            
 
             await builder.Build().RunAsync();
         }

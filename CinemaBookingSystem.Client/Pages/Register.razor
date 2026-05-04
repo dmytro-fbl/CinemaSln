@@ -1,0 +1,58 @@
+﻿@page "/register"
+@using CinemaBookingSystem.Models.ViewModels
+@using CinemaBookingSystem.Client.Services
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">Створення акаунту</h4>
+
+                <EditForm Model="registerModel" OnValidSubmit="HandleRegistration">
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <label class="form-label">Ім'я користувача</label>
+                        <InputText @bind-Value="registerModel.Name" class="form-control" />
+                        <ValidationMessage For="@(() => registerModel.Name)" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Електронна пошта</label>
+                        <InputText @bind-Value="registerModel.Email" class="form-control" />
+                        <ValidationMessage For="@(() => registerModel.Email)" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <InputText @bind-Value="registerModel.Password" type="password" class="form-control" />
+                        <ValidationMessage For="@(() => registerModel.Password)" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Підтвердження пароля</label>
+                        <InputText @bind-Value="registerModel.ConfirmPassword" type="password" class="form-control" />
+                        <ValidationMessage For="@(() => registerModel.ConfirmPassword)" class="text-danger" />
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Зареєструватися</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+
+    private async Task HandleRegistration()
+    {
+        var result = await AuthService.Register(registerModel);
+        if (result)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}
