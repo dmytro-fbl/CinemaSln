@@ -41,8 +41,18 @@ namespace CinemaBookingSystem
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
             builder.Services.AddRazorPages();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
+
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var context = scope.ServiceProvider.GetRequiredService<CinemaDbContext>();
+
+            //    // Це видалить всі записи з таблиць (якщо в тебе налаштовано каскадне видалення)
+            //    context.Database.EnsureDeleted(); // Повне видалення файлу БД або схеми
+            //    context.Database.EnsureCreated(); // Повторне створення схеми
+            //}
 
             using (var scope = app.Services.CreateScope())
             {
@@ -76,6 +86,8 @@ namespace CinemaBookingSystem
             app.UseAuthorization();
 
             app.MapDefaultControllerRoute();
+
+            app.MapHub<CinemaBookingSystem.Hubs.SeatHub>("/seatHub");
             
             SeedData.EnsurePopulated(app); 
 

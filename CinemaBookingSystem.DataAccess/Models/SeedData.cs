@@ -25,7 +25,13 @@ namespace CinemaBookingSystem.DataAccess.Models
                     Description = "Епічна подорож Пола Атріда на шляху помсти за свою родину та боротьби за майбутнє всесвіту.",
                     Genre = "Наукова фантастика",
                     TicketPrice = 180.00m,
-                    ReleaseDate = new DateTime(2024, 2, 29)
+                    ReleaseDate = new DateTime(2024, 2, 29),
+
+                    Showtimes = new List<Showtime>
+                    {
+                        new Showtime { SessionTime = DateTime.Now.AddHours(2), HallNumber = 1 },
+                        new Showtime { SessionTime = DateTime.Now.AddDays(1), HallNumber = 2 }
+                    }
                 },
 
                 new Movie
@@ -34,7 +40,11 @@ namespace CinemaBookingSystem.DataAccess.Models
                     Description = "Історія життя Дж. Роберта Оппенгеймера, фізика-теоретика, який очолив Мангеттенський проєкт.",
                     Genre = "Біографічна драма",
                     TicketPrice = 165.00m,
-                    ReleaseDate = new DateTime(2023, 7, 20)
+                    ReleaseDate = new DateTime(2023, 7, 20),
+                    Showtimes = new List<Showtime>
+                    {
+                        new Showtime { SessionTime = DateTime.Now.AddHours(5), HallNumber = 3 }
+                    }
                 },
                 new Movie
                 {
@@ -63,6 +73,8 @@ namespace CinemaBookingSystem.DataAccess.Models
 
                 context.SaveChanges();
             }
+
+
         }
     }
 }

@@ -21,15 +21,10 @@
 			<div class="d-flex justify-content-between align-items-center">
 				<span class="h5 mb-0 text-success fw-bold">@Model.TicketPrice.ToString("0.00") грн</span>
 			</div>
-			<form asp-page="/Cart" method="post">	
-				<input type="hidden" name="movieId" value="@Model.MovieID" />
-				<input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-				<span class="card-text">
-					<button type="submit" class="btn btn-success btn-sm float-end">
-						Вибрати квиток
-					</button>
-				</span>
-			</form>
+
+			<a asp-controller="Home" asp-action="Details" asp-route-movieId="@Model.MovieID" class="btn btn-success w-100">
+				Розклад та квитки
+			</a>
 		</div>
 	</div>
 </div>

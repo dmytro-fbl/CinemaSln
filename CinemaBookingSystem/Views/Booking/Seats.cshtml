@@ -1,0 +1,144 @@
+﻿@using CinemaBookingSystem.Models
+@model CinemaBookingSystem.Models.Models.Showtime
+
+@{
+	ViewBag.Title = "Вибір місць";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Вибір місць: @Model.Movie.Title</h2>
+    <p class="text-muted">Зал №@Model.HallNumber | @Model.SessionTime.ToString("dd.MM.yyyy HH:mm")</p>
+
+    <input type="hidden" id="showtimeId" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-8 text-center">
+            <div class="bg-dark text-white p-2 mb-4 rounded">ЕКРАН</div>
+
+            <div id="seat-map" class="d-flex flex-wrap justify-content-center gap-2" style="max-width: 600px; margin: 0 auto;">
+             
+                @for (int i = 1; i <= 30; i++)
+                {
+                    <button type="button" class="btn btn-outline-success seat-btn" style="width: 50px;" data-seat-id="@i">
+                        @i
+                    </button>
+                }
+            </div>
+
+            <div class="mt-4 d-flex justify-content-center gap-3">
+                <div><span class="badge bg-success">&nbsp;</span> Вільне</div>
+                <div><span class="badge bg-warning text-dark">&nbsp;</span> Вибране вами</div>
+                <div><span class="badge bg-secondary">&nbsp;</span> Зайняте іншим</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Ваше замовлення</h5>
+                    <p>Вибрані місця: <span id="selected-seats-display" class="fw-bold">-</span></p>
+
+                    <form asp-page="/Cart" method="post" id="bookingForm">
+                        <input type="hidden" name="movieId" value="@Model.MovieId" />
+                        <input type="hidden" name="selectedSeats" id="selectedSeatsInput" value="" />
+                        <input type="hidden" name="returnUrl" value="/Booking/Seats?showtimeId=@Model.Id" />
+
+                        <button type="submit" class="btn btn-primary w-100" id="addToCartBtn" disabled>
+                            Додати квитки в кошик
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/seatHub")
+            .build();
+
+        const showtimeId = document.getElementById("showtimeId").value;
+        const selectedSeatsInput = document.getElementById("selectedSeatsInput");
+        const selectedSeatsDisplay = document.getElementById("selected-seats-display");
+        const addToCartBtn = document.getElementById("addToCartBtn");
+
+        let mySelectedSeats = [];
+
+        function updateCartUI() {
+            selectedSeatsInput.value = mySelectedSeats.join(',');
+            selectedSeatsDisplay.textContent = mySelectedSeats.length > 0 ? mySelectedSeats.join(', ') : '-';
+            addToCartBtn.disabled = mySelectedSeats.length === 0;
+        }
+
+        connection.on("SeatLocked", function (seatId) {
+            console.log(`[SignalR] Отримано команду LOCK для місця: ${seatId}`); 
+            let seatBtn = document.querySelector(`[data-seat-id='${seatId}']`);
+            if (seatBtn && !mySelectedSeats.includes(seatId)) {
+                seatBtn.className = "btn btn-secondary seat-btn disabled";
+            }
+        });
+
+        connection.on("SeatUnlocked", function (seatId) {
+            console.log(`[SignalR] Отримано команду UNLOCK для місця: ${seatId}`);
+            let seatBtn = document.querySelector(`[data-seat-id='${seatId}']`);
+            if (seatBtn && !mySelectedSeats.includes(seatId)) {
+                seatBtn.className = "btn btn-outline-success seat-btn";
+                seatBtn.disabled = false; 
+            }
+        });
+
+        connection.on("LoadLockedSeats", function (seatIds) {
+            seatIds.forEach(id => {
+                let seatBtn = document.querySelector(`[data-seat-id='${id}']`);
+                if (seatBtn) {
+                    seatBtn.className = "btn btn-secondary seat-btn disabled";
+                }
+            });
+        });
+
+        connection.start().then(function () {
+            connection.invoke("JoinShowtime", showtimeId);
+        }).catch(err => console.error(err));
+
+        document.querySelectorAll('.seat-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                if (this.classList.contains('disabled') || this.classList.contains('btn-secondary')) return;
+
+                const seatId = this.getAttribute('data-seat-id');
+
+                if (mySelectedSeats.includes(seatId)) {
+                    mySelectedSeats = mySelectedSeats.filter(id => id !== seatId);
+                    this.className = "btn btn-outline-success seat-btn";
+
+                    connection.invoke("UnlockSeat", showtimeId, seatId).catch(err => console.error("Помилка SignalR:", err));
+                } else {
+                    mySelectedSeats.push(seatId);
+                    this.className = "btn btn-warning seat-btn text-dark";
+
+                    connection.invoke("LockSeat", showtimeId, seatId).catch(err => console.error("Помилка SignalR:", err));
+                }
+
+                updateCartUI();
+
+                const bookingForm = document.getElementById("bookingForm");
+
+                bookingForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    connection.invoke("MoveToCart", showtimeId, mySelectedSeats)
+                        .then(() => {
+                            bookingForm.submit();
+                        })
+                        .catch(err => {
+                            console.error("Помилка при перенесенні в кошик:", err);
+                        bookingForm.submit();
+                        });
+                });
+            });
+        });
+    </script>
+}

@@ -1,6 +1,7 @@
 ﻿using CinemaBookingSystem.DataAccess.Models.Interface;
 using CinemaBookingSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CinemaBookingSystem.Controllers
@@ -35,6 +36,19 @@ namespace CinemaBookingSystem.Controllers
                 },
                 CurrentCategory = category
             });
+        }
+
+        public IActionResult Details(long movieId)
+        {
+            var movie = cinemaRepository.Movies
+                .Include(m => m.Showtimes)
+                .FirstOrDefault(m => m.MovieID == movieId);
+
+            if(movie == null)
+            {
+                return NotFound();
+            }
+            return View(movie);
         }
     }
 }
